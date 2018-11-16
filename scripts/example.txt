@@ -1,0 +1,10 @@
+#Note: - File name should not contain a space
+#      - To query multiple repos, copy and paste this file, changing the variables below
+#      - Seperate different label queries by spaces, if you want to query for an issue with multiple labels, seperate each label by a comma
+#	   - Eg: defect = returns all issues with the defect label
+#	     defect,Severity1 = returns all issues with both the defect and Severity1 lables
+#	     defect Severity1 = returns all issues with the defect label, and all issues with the Severity1 label
+#      - *** When using the Verified label with another (Eg: defect,Verified), make sure the Verified label is last (Verified,defect won't work)
+
+repo="ibm-cork-coderdojo-projects/iarla_work"
+labels_string="git,bug git bug docker test%20label Verified"
