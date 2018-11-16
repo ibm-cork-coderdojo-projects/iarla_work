@@ -5,6 +5,8 @@
 #	     defect,Severity1 = returns all issues with both the defect and Severity1 lables
 #	     defect Severity1 = returns all issues with the defect label, and all issues with the Severity1 label
 #      - *** When using the Verified label with another (Eg: defect,Verified), make sure the Verified label is last (Verified,defect won't work)
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 repo="security-secops/IBM-Security-Cloud"
 labels_string="defect,Severity1 defect,Severity2 defect,Infrastructure%20Services defect,Severity3 defect,Severity4 EFT%20Blocker defect,Resolved defect,Verified"

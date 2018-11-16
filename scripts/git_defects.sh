@@ -7,7 +7,7 @@ updated in the last 2 weeks are shown.
 2) Get repo and labels info from repo.txt files
 3) Querry githup api for total amount of issues with each label in each repo
 4) Output results and total to a .csv file for each repo
-5) Output all results for every repo and total into tables in a .html file
+5) Output all results for every repo and total into tables in one .html file
 '
 
 #Inputs
@@ -39,8 +39,8 @@ while read config_file; do
     #Get amount of issues with specified labels and output results into a .csv file
     for i in ${!labels[@]}; do
         url="https://api.github.ibm.com/repos/${repo}/issues?labels=${labels[$i]}&is:open"
-        #If issue = verified, change url & output to check if it's been updated recently
         updated_recently=""
+        #If issue = verified, change url & output to check if it's been updated recently
         if test "${labels[$i]#*$VERIFIED_NAME}" != "${labels[$i]}"; then
             url="https://api.github.ibm.com/repos/$repo/issues?labels=${labels[$i]}&since=$(get_date)"
             updated_recently=" (In the last ${VERIFIED_RANGE_WEEKS} weeks)"
@@ -48,13 +48,13 @@ while read config_file; do
             url="https://api.github.ibm.com/repos/$repo/issues?labels=${labels[$i]}&since=$(get_date)"
             updated_recently=" (In the last ${VERIFIED_RANGE_WEEKS} weeks)"
         fi
-        #Use jquery to get the total amount of issues with each label, then output result to file
+        #Use jquery to get the total amount of issues with each label, replace "," and "%20" to & and spaces and output to .csv file
         label_count=$(curl -s -u $USERNAME:$TOKEN "${url}" | jq length)
         labels[$i]=${labels[$i]//','/$' & '}
         labels[$i]=${labels[$i]//'%20'/' '}
         echo "${labels[$i]}${updated_recently},$label_count" >> $file_name
     done
-    #Output total to file
+    #Output total to .csv file
     echo "Total,$(curl -s -u $USERNAME:$TOKEN https://api.github.ibm.com/repos/$repo/issues | jq length)" >> $file_name
 
     #Output the .csv file into a .html file to create a table
@@ -62,7 +62,8 @@ while read config_file; do
     while read INPUT ; do
         echo "<tr><td><b>${INPUT//,/</b></td><td>}</td></tr>" >> $HTML_NAME ;
     done < $file_name ;
-    echo "</table>" >> $HTML_NAME
+    echo "</table><br>" >> $HTML_NAME
 
+    #Increment counter (for naming .csv file)
     ((counter++))
 done <<< "$(ls -1 *.txt)"
