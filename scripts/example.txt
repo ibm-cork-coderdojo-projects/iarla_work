@@ -1,4 +1,4 @@
-#Note: - File name should not contain a space
+#Note: - The name of this file shouldn't contain a space, but doesn't matter apart from that
 #      - To query multiple repos, copy and paste this file, changing the variables below
 #      - Seperate different label queries by spaces, if you want to query for an issue with multiple labels, seperate each label by a comma
 #	   - Eg: defect = returns all issues with the defect label
