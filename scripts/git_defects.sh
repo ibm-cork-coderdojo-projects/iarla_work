@@ -42,14 +42,14 @@ while read config_file; do
         #If issue = verified, change url & output to check if it's been updated recently
         updated_recently=""
         if test "${labels[$i]#*$VERIFIED_NAME}" != "${labels[$i]}"; then
-            url="https://api.github.ibm.com/repos/$repo/issues?labels=${labels[$i]}&since:$(get_date)"
+            url="https://api.github.ibm.com/repos/$repo/issues?labels=${labels[$i]}&since=$(get_date)"
             updated_recently=" (In the last ${VERIFIED_RANGE_WEEKS} weeks)"
         elif test "${labels[$i]#*,$VERIFIED_NAME}" != "${labels[$i]}"; then
-            url="https://api.github.ibm.com/repos/$repo/issues?labels=${labels[$i]}&since:$(get_date)"
+            url="https://api.github.ibm.com/repos/$repo/issues?labels=${labels[$i]}&since=$(get_date)"
             updated_recently=" (In the last ${VERIFIED_RANGE_WEEKS} weeks)"
         fi
         #Use jquery to get the total amount of issues with each label, then output result to file
-        label_count=$(curl -s -u $USERNAME:$TOKEN -H "Accept: all" "${url}" | jq length)
+        label_count=$(curl -s -u $USERNAME:$TOKEN "${url}" | jq length)
         labels[$i]=${labels[$i]//','/$' & '}
         labels[$i]=${labels[$i]//'%20'/' '}
         echo "${labels[$i]}${updated_recently},$label_count" >> $file_name
